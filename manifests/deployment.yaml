@@ -21,7 +21,17 @@ spec:
           volumeMounts:
             - name: praksa-task-brojac-pvc
               mountPath: /data
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
       volumes:
         - name: praksa-task-brojac-pvc
           persistentVolumeClaim:
             claimName: praksa-task-brojac-pvc
+
+
+            # ogranici podove
