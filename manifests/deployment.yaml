@@ -4,7 +4,7 @@ metadata:
   name: praksa-task-api-deployment
   namespace: praksa-task
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: praksa-task-api
