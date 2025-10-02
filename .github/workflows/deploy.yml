@@ -22,6 +22,7 @@ jobs:
  
       - name: Build and Push
         run: |
+          cd src
           IMAGE_NAME=ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
