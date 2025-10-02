@@ -1,0 +1,42 @@
+from fastapi import FastAPI
+from filelock import FileLock
+import json
+import os
+
+COUNTER_FILE_PATH = "/data/counter.json"
+LOCK_FILE_PATH = "/data/counter.lock"
+
+app = FastAPI()
+
+if not os.path.exists(COUNTER_FILE_PATH):
+    os.makedirs(os.path.dirname(COUNTER_FILE_PATH), exist_ok=True)
+    with open(COUNTER_FILE_PATH, "w") as f:
+        json.dump({"counter": 0}, f)
+
+    
+
+def read_counter(file_path):
+    with open(file_path, "r") as f:
+        return json.load(f)["counter"]
+
+
+def write_counter(file_path, value):
+    with open(file_path, "w") as f:
+        json.dump({"counter": value}, f)
+
+
+@app.get("/")
+def get_counter():
+    lock = FileLock(LOCK_FILE_PATH)
+    with lock:
+        return {"counter": read_counter(COUNTER_FILE_PATH)}
+
+@app.post("/increment")
+def increment_counter():
+    lock = FileLock(LOCK_FILE_PATH)
+    with lock:
+        current_value = read_counter(COUNTER_FILE_PATH)
+        new_value = current_value + 1
+        write_counter(COUNTER_FILE_PATH, new_value)
+        return {"content": new_value}
+

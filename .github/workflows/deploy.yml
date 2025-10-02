@@ -1,0 +1,27 @@
+name: Build and Push Docker Image
+ 
+on:
+  push:
+    branches: 
+        - main
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+ 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+ 
+      - name: Build and Push
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository }}/praksa-task-api:latest
+          docker build -t $IMAGE_NAME .
+          docker push $IMAGE_NAME

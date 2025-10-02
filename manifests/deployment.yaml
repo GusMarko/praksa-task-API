@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: praksa-task-api-deployment
+  namespace: praksa-task
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: praksa-task-api
+  template:
+    metadata:
+      labels:
+        app: praksa-task-api
+    spec:
+      containers:
+        - name: praksa-task-api
+          image: praksa-task-api:latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: praksa-task-brojac-pvc
+              mountPath: /data
+      volumes:
+        - name: praksa-task-brojac-pvc
+          persistentVolumeClaim:
+            claimName: praksa-task-brojac-pvc
