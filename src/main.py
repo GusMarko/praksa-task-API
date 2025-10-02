@@ -14,7 +14,6 @@ if not os.path.exists(COUNTER_FILE_PATH):
         json.dump({"counter": 0}, f)
 
     
-# endpoint za reset
 def reset_counter(file_path):
     lock = FileLock(LOCK_FILE_PATH)
     with lock:
@@ -48,6 +47,6 @@ def increment_counter():
         return {"content": new_value}
 
 @app.post("/reset")
-def reset_counter():
+def reset_counter_value():
     reset_counter(COUNTER_FILE_PATH)
     return {"counter" : 0}
