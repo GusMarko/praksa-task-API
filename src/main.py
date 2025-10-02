@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from filelock import FileLock
+from fastapi.middleware.cors import CORSMiddleware
 import json
 import os
 
@@ -7,6 +8,14 @@ COUNTER_FILE_PATH = "/data/counter.json"
 LOCK_FILE_PATH = "/data/counter.lock"
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 if not os.path.exists(COUNTER_FILE_PATH):
     os.makedirs(os.path.dirname(COUNTER_FILE_PATH), exist_ok=True)
