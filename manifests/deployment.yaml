@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: praksa-task-api
-          image: praksa-task-api:latest
+          image: ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest
           ports:
             - containerPort: 8000
           volumeMounts:
