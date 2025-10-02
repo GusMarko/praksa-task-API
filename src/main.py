@@ -49,7 +49,7 @@ def increment_counter():
         current_value = read_counter(COUNTER_FILE_PATH)
         new_value = current_value + 1
         write_counter(COUNTER_FILE_PATH, new_value)
-        return {"content": new_value}
+        return {"counter": new_value}
 
 @app.post("/reset")
 def reset_counter_value():
