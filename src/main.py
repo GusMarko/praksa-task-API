@@ -15,11 +15,7 @@ if not os.path.exists(COUNTER_FILE_PATH):
 
     
 def reset_counter(file_path):
-    lock = FileLock(LOCK_FILE_PATH)
-    with lock:
         write_counter(file_path, 0)
-
-
 
 def read_counter(file_path):
     with open(file_path, "r") as f:
@@ -48,5 +44,7 @@ def increment_counter():
 
 @app.post("/reset")
 def reset_counter_value():
-    reset_counter(COUNTER_FILE_PATH)
-    return {"counter" : 0}
+    lock = FileLock(LOCK_FILE_PATH)
+    with lock:
+        reset_counter(COUNTER_FILE_PATH)
+        return {"counter" : 0}
