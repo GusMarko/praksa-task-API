@@ -4,6 +4,7 @@ on:
   push:
     branches: 
         - main
+        - dev
  
 jobs:
   build:
@@ -24,9 +25,9 @@ jobs:
         shell: powershell
         run: |
           if ("${{ github.ref_name }}" -eq "main") {
-            echo "##vso[task.setvariable variable=ENVIRONMENT]main"
+            echo "ENVIRONMENT=main" >> $GITHUB_ENV
           } else {
-            echo "##vso[task.setvariable variable=ENVIRONMENT]dev"
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           }          
           Set-Location -Path "./src"
           $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${{ env.ENVIRONMENT }}latest"
