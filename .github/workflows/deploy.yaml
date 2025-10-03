@@ -20,9 +20,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
  
-      - name: Build and Push
+      - name: Build and Push (PowerShell inline)
+        shell: pwsh
         run: |
-          cd src
-          IMAGE_NAME=ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest
-          docker build -t $IMAGE_NAME .
-          docker push $IMAGE_NAME
+          Set-Location -Path "./src"
+          $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest"
+          docker build -t $imageName .
+          docker push $imageName
