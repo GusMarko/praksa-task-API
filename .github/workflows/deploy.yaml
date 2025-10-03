@@ -30,6 +30,6 @@ jobs:
             echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           }          
           Set-Location -Path "./src"
-          $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${{ env.ENVIRONMENT }}latest"
-          docker build --build-arg ENVIRONMENT=${{ env.ENVIRONMENT }} -t $imageName .
+          $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${Env:ENVIRONMENT}-latest"
+          docker build --build-arg ENVIRONMENT=$Env:ENVIRONMENT -t $imageName .
           docker push $imageName
