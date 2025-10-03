@@ -3,23 +3,21 @@ from filelock import FileLock
 from fastapi.middleware.cors import CORSMiddleware
 import json
 import os
-
-COUNTER_FILE_PATH = "/data/counter.json"
-LOCK_FILE_PATH = "/data/counter.lock"
+import variables
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins= variables.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-if not os.path.exists(COUNTER_FILE_PATH):
-    os.makedirs(os.path.dirname(COUNTER_FILE_PATH), exist_ok=True)
-    with open(COUNTER_FILE_PATH, "w") as f:
+if not os.path.exists(variables.COUNTER_FILE_PATH):
+    os.makedirs(os.path.dirname(variables.COUNTER_FILE_PATH), exist_ok=True)
+    with open(variables.COUNTER_FILE_PATH, "w") as f:
         json.dump({"counter": 0}, f)
 
     
@@ -38,22 +36,22 @@ def write_counter(file_path, value):
 
 @app.get("/")
 def get_counter():
-    lock = FileLock(LOCK_FILE_PATH)
+    lock = FileLock(variables.LOCK_FILE_PATH)
     with lock:
-        return {"counter": read_counter(COUNTER_FILE_PATH)}
+        return {"counter": read_counter(variables.COUNTER_FILE_PATH)}
 
 @app.post("/increment")
 def increment_counter():
-    lock = FileLock(LOCK_FILE_PATH)
+    lock = FileLock(variables.LOCK_FILE_PATH)
     with lock:
-        current_value = read_counter(COUNTER_FILE_PATH)
+        current_value = read_counter(variables.COUNTER_FILE_PATH)
         new_value = current_value + 1
-        write_counter(COUNTER_FILE_PATH, new_value)
+        write_counter(variables.COUNTER_FILE_PATH, new_value)
         return {"counter": new_value}
 
 @app.post("/reset")
 def reset_counter_value():
-    lock = FileLock(LOCK_FILE_PATH)
+    lock = FileLock(variables.LOCK_FILE_PATH)
     with lock:
-        reset_counter(COUNTER_FILE_PATH)
+        reset_counter(variables.COUNTER_FILE_PATH)
         return {"counter" : 0}

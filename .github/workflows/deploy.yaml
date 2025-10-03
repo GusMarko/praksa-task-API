@@ -20,10 +20,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
  
-      - name: Build and Push (PowerShell inline)
+      - name: Build and Push 
         shell: powershell
         run: |
+          if ("${{ github.ref_name }}" -eq "main") {
+            echo "##vso[task.setvariable variable=ENVIRONMENT]main"
+          } else {
+            echo "##vso[task.setvariable variable=ENVIRONMENT]dev"
+          }          
           Set-Location -Path "./src"
-          $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest"
-          docker build -t $imageName .
+          $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${{ env.ENVIRONMENT }}latest"
+          docker build --build-arg ENVIRONMENT=${{ env.ENVIRONMENT }} -t $imageName .
           docker push $imageName
