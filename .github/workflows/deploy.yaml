@@ -21,7 +21,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
  
       - name: Build and Push (PowerShell inline)
-        shell: pwsh
+        shell: powershell
         run: |
           Set-Location -Path "./src"
           $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:latest"
