@@ -35,4 +35,5 @@ jobs:
         shell: powershell
         run: |               
           $branchName = "${{ github.ref_name }}"
-          kubectl rollout restart deployment praksa-task-api-deployment-dev -n praksa-task-dev
+          echo "$branchName"
+          kubectl rollout restart deployment "praksa-task-api-deployment-$branchName" -n "praksa-task-$branchName"
