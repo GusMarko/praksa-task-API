@@ -20,7 +20,6 @@ if not os.path.exists(variables.COUNTER_FILE_PATH):
     with open(variables.COUNTER_FILE_PATH, "w") as f:
         json.dump({"counter": 0}, f)
 
-    
 def reset_counter(file_path):
         write_counter(file_path, 0)
 
