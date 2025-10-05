@@ -5,6 +5,8 @@ on:
     branches: 
         - main
         - dev
+        - qa
+        - uat
  
 jobs:
   build:
@@ -26,7 +28,10 @@ jobs:
         run: |               
           Set-Location -Path "./src"
           $branchName = "${{ github.ref_name }}"
-          $port = if ($branchName -eq "main") { "8000" } else { "8080" }
+          $port = if ($branchName -eq "main") { "8000" } `
+            elseif ($branchName -eq "dev") { "8080" } `
+            elseif ($branchName -eq "qa") { "8001" } `
+            elseif ($branchName -eq "uat") { "8002" } `
           $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${branchName}-latest"
           docker build --build-arg ENVIRONMENT=$branchName --build-arg APP_PORT=$port -t $imageName .
           docker push $imageName
