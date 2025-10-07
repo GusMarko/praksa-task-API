@@ -29,7 +29,7 @@ jobs:
           Set-Location -Path "./src"
           $branchName = "${{ github.ref_name }}"
           $port = if ($branchName -eq "main") { "8000" } `
-            elseif ($branchName -eq "dev") { "8080" } `
+            elseif ($branchName -eq "dev") { "80" } `
             elseif ($branchName -eq "qa") { "8001" } `
             elseif ($branchName -eq "uat") { "8002" } `
           $imageName = "ghcr.io/gusmarko/praksa-task-api/praksa-task-api:${branchName}-latest"
