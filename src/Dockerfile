@@ -5,8 +5,6 @@ WORKDIR /app
 ARG ENVIRONMENT
 ENV ENVIRONMENT=${ENVIRONMENT}
 
-ARG APP_PORT
-ENV APP_PORT=${APP_PORT}
 
 COPY requirements.txt ./
 
@@ -16,4 +14,6 @@ COPY ${ENVIRONMENT}-variables.py ./variables.py
 
 COPY main.py .
  
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $APP_PORT"]
+EXPOSE 8000
+
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000"]
