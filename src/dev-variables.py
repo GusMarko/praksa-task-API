@@ -1,3 +1,3 @@
 COUNTER_FILE_PATH = "/data/counter.json"
 LOCK_FILE_PATH = "/data/counter.lock"
-ALLOWED_ORIGINS = ["ui.dev.local"]
+ALLOWED_ORIGINS = ["*"]
